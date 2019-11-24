@@ -12,3 +12,4 @@ class Student(models.Model):
 class Log(models.Model):
     encoding = models.TextField()
     datetime = models.DateTimeField()
+    image = models.ImageField(upload_to='logs/')
