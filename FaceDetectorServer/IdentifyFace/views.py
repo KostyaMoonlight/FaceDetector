@@ -8,7 +8,7 @@ from django.views.generic import ListView, CreateView # new
 from django.urls import reverse_lazy # new
 
 from .forms import StudentForm # new
-from .models import Student
+from .models import Student, Log
 
 import numpy as np
 from .tools import *
@@ -23,7 +23,7 @@ def index(request):
 
 
 @csrf_exempt
-def get_face(request):
+def verify_face(request):
     if request.method == 'GET':
         return HttpResponse("Get face got get.")
     elif request.method == 'POST':
@@ -41,19 +41,13 @@ def log_face(request):
     if request.method == 'POST':
 
         face_service =FaceService()
-        db = DBManager()
 
         received_json_data=json.loads(request.body)
         face = restore_image(received_json_data['image'])
         try:
             encoding = face_service.get_encodings(face)[0]
-            student = {"encoding" : encoding.tolist(), 
-                       "face":received_json_data['face'],
-                       "name":received_json_data['name'],
-                       "surname":received_json_data['surname'],
-                       "group":received_json_data['group'],
-                       }
-            db.add_student(student)
+            log = Log(encoding=encoding, datetime =datetime.now())
+            log.save()
             return HttpResponse('0')
         except :
             return HttpResponse('1')

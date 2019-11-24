@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
 
 class Student(models.Model):
     name = models.TextField()
@@ -9,3 +8,7 @@ class Student(models.Model):
     encodings = models.TextField(null=True)
     def __str__(self):
         return f"{self.name} {self.surname}"
+
+class Log(models.Model):
+    encoding = models.TextField()
+    datetime = models.DateTimeField()
