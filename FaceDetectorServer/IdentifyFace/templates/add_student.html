@@ -1,0 +1,6 @@
+<h1>Create Student Page</h1>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Submit New Student</button>
+</form>
